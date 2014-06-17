@@ -3,43 +3,63 @@
     <title>CRUD operations with Cloudant</title>
     <script src="jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="crudstyle.css">
+	<script src='KelpJSONView.js' type='text/javascript'></script>
+    <link href='KelpJSONView.css' rel='stylesheet' type='text/css'/>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
   </head>
   <body>
     <script type="application/javascript" src="config"></script>
     <script type="application/javascript" src="playlist.js"></script>
-
-    <div id="wrapper">
-       <img src="cloudant.png">
-       <div id="title">
-          <b>JavaScript/JQuery CRUD Example</b>
-       </div>
-
-       <div id="new Output">
-         <p>New Output:
-         <pre id="toodle"></pre></p>
-         <br />
-       </div>
-
-       <div id="crud">
-          <dl>
-             <dd>Create a New Playlist:</dd><dt><input type="text" id="newplaylistname"><input type="button" id="create" value="CREATE!"></dt>
-             <dd>Choose Playlist:</dd><dt><select id="playlists"></select><input type="button" id="read" value="READ!"></dt>
-             <dd>Add Song to Playlist:</dd><dt><input type="text" class="update" id="artistname" value="<Artist Name>"><br/>
-                                               <input type="text" class="update" id="songname" value="<Song Title>"><input type="button" id="update" value="UPDATE!"></dt>
-             <dd>Delete a Playlist:</dd><dt><input type="text" id="deleteplaylistname"><input type="button" id="delete" value="DELETE!"><dt>
-          </dl>
-       </div>
-       <div id="song-wrapper">
-         <h2>Songs</h2>
-        <div id ="songs">
+	<div id="totalwrapper">
+    	<div id="wrapper-top">
+        	<table><tr>
+        	  <td><img src="cloudant.png" width="364" height="104"></td>
+            <td><div id="title"><b>JavaScript/JQuery CRUD Example</b></div></td></tr>
+            </table>
         </div>
-      </div>
-       <div id="output">
-          <b>Playlist Output:</b>
-          <p><pre id="output-data"></pre></p>
-
+        <div id="wrapper-status">
+			<p>Status:<pre id="toodle"></pre></p>
        </div>
-
-    </div>
+		<div id="wrapper-left">    
+           <div id="crud">
+           	<div class="title-medium">Cloudant Playlists CRUD:</div>
+              <table>
+                 <tr>	<td valign="">Create a New Playlist:</td>
+                 		<td><input type="text" id="newplaylistname" style="width:150px; height:25px;">
+                 			<input type="button" id="create" value="CREATE!"></td>
+                 </tr>
+                 <tr>
+                     <td valign="">Choose Playlist:</td>
+                     <td><select id="playlists" style="width:150px; height:25px;"></select><input type="button" id="read" value="READ!">
+                        <input type="button" id="delete" value="DELETE!"></td>
+                 </tr>
+                 <tr>
+                     <td valign="top">Add Song to Playlist:</td>
+                     <td><input type="text" class="update" id="artistname" style="width:150px; height:25px;" value="<Artist Name>"><br/>
+                        <input type="text" class="update" id="songname" style="width:150px; height:25px;" value="<Song Title>">
+                      <input type="button" id="update" value="UPDATE!"></td>
+                 </tr>
+              </table>
+           </div>
+           
+           <div id="output">
+              <div class="title-medium">Cloudant JSON Response:</div>
+              <div id="cloudant-response"><p><pre id="output-data"></pre></p></div>
+			</div>
+		</div>
+        
+  		<div id="wrapper-right">
+        	<div class="title-medium">Playlists:</div>
+        	<div id="show-songs">
+           	<h2>Songs</h2>
+        		<ul id="sortable">
+  					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s">Test</span></li>
+                  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s">Test2</span></li>
+              </ul>
+           </div>
+		</div>
+   <div id="floatclear"></div>
+   </div>
   </body>
 </html>

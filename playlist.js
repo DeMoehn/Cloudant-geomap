@@ -15,16 +15,37 @@ $( document ).ready(function() {
          error: errorHandler
       }).done(function( data ) {
          var doc = JSON.parse(data);
-        var list = document.getElementById('playlists');
+         var list = document.getElementById('playlists');
         for(var i=0; i < doc.rows.length; i++) {
           $("#playlists").append(new Option(doc.rows[i].id, doc.rows[i].id)); // Set Value and Text of Select Option
         }
       });
     }
 
+    // - Create Autocomplete for artists -
+    function artistAutocomplete() {
+        var availableArtists = []; // Array for all Artists
+        var docUrl = baseUrl + "/"+"_design/Songs/_view/showArtists?group=true"; // URL to the Artists View
+
+        $.ajax({ // Load all Artists
+           url: docUrl,
+           xhrFields: { withCredentials: true },
+           type: "GET",
+           error: errorHandler
+        }).done(function( data ) {
+          var doc = JSON.parse(data); // Parse the JSON data
+          for(var i=0; i < doc.rows.length; i++) {
+            availableArtists.push(doc.rows[i].key); // Push the Artist to the Array
+          }
+        });
+
+        $( "#artistname" ).autocomplete({ // Activate Autocomplete
+          source: availableArtists
+        });
+    }
+
     // -  Show Songs in Playlist -
     function handlePlaylist(doc) {
-      $( "#song-wrapper" ).show(); // Show the Container with the songs
       $( "#songs" ).empty(); // Clears the Playlist field
       $( "#toodle" ).text("Status: Playlist found - "+doc._id);
       $( "#Playlist" ).text("Playlist: "+doc._id);
@@ -40,8 +61,16 @@ $( document ).ready(function() {
 
     // on start of the application
     window.onload = function() {
-      refreshDropdown();
-      $( "#song-wrapper" ).hide(); // Hide the Container with the songs
+      refreshDropdown(); // Refresh/Load the Playlist DropDown
+      $( "#wrapper-status" ).hide(); // Hide the Container including status messages
+
+      artistAutocomplete();
+
+      var doc = "{}";
+      $.JSONView(doc, $("#output-data")); // Add the default JSON '{}' to the JSON Output container
+
+      $( "#sortable" ).sortable(); // Make the Song-List sortable
+      $( "#sortable" ).disableSelection(); // Disable Text-Selection on sortables
     };
 
    function errorHandler(jqXHR, textStatus, errorThrown) {
@@ -87,7 +116,7 @@ $( document ).ready(function() {
           error: errorHandler
        }).done(function(data) { // if done, push data to function "readPlaylist"
        var doc = JSON.parse(data);
-       $( "#output-data" ).text(JSON.stringify(doc, null, 2));
+       $.JSONView(doc, $("#output-data"));
        handlePlaylist(doc);
        $( "#readplaylistname" ).val("");
      });
@@ -123,7 +152,6 @@ $( document ).ready(function() {
             }).done(function( data ) {
 	       var doc2 = JSON.parse(data);
 	       $( "#output-data" ).text(JSON.stringify(doc2, null, 2));
-	       $( "#updateplaylistname" ).val("<Playlist Name>");
 	       $( "#artistname" ).val("<Artist Name>");
 	       $( "#songname" ).val("<Song Title>");
          readPlaylists();
@@ -134,9 +162,9 @@ $( document ).ready(function() {
 
    // on delete
    $( "#delete" ).click(function( event ) {
-      var deleteplaylist = $( "#deleteplaylistname" ).val();
-      var docUrl = baseUrl + "/" + deleteplaylist;
-      if(deleteplaylist) {
+      var playlist = $( "#playlists" ).val();
+      var docUrl = baseUrl + "/" + playlist;
+      if(playlist) {
          $.ajax({
             url: docUrl,
             xhrFields: { withCredentials: true },
@@ -151,18 +179,12 @@ $( document ).ready(function() {
 	       type: "DELETE",
 	       error: errorHandler
             }).done(function( data ) {
-	       var doc2 = JSON.parse(data)
+	       var doc2 = JSON.parse(data);
 	       $( "#output-data" ).text(JSON.stringify(doc2, null, 2));
-	       $( "#deleteplaylistname" ).val("");
+         refreshDropdown(); // DropDown aktualisieren
+         $( "#song-wrapper" ).hide(); // Song - Liste verstecken
             });
          });
-      }
-   });
-
-   // reset the update playlist name field if it is empty
-   $( "#updateplaylistname" ).blur(function() {
-      if($( "#updateplaylistname" ).val() == "") {
-         $( "#updateplaylistname" ).val("<Playlist Name>");
       }
    });
 
@@ -173,10 +195,24 @@ $( document ).ready(function() {
       }
    });
 
+   // Delete the Placeholder on Focus
+   $( "#artistname" ).focus(function() {
+      if ($( "#artistname" ).val() == "<Artist Name>") {
+         $( "#artistname" ).val("");
+      }
+   });
+
    // reset the song name field if it is empty
    $( "#songname" ).blur(function() {
       if($( "#songname" ).val() == "") {
          $( "#songname" ).val("<Song Title>");
       }
+   });
+
+  // Delete the Placeholder on Focus
+   $( "#songname" ).focus(function() {
+       if($( "#songname" ).val() == "<Song Title>") {
+         $( "#songname" ).val("");
+       }
    });
 });
