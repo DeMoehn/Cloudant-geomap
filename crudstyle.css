@@ -40,6 +40,27 @@ body {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+.song-list {
+	color: #333333;
+	font-size: 13px;
+	font-family: "Helvetica Neue", Gotham, Helvetica, Arial, sans-serif;
+	background-color: #15B5F2;
+	margin-top: 0px;
+	margin-bottom: 5px;
+	padding: 7px;
+	display: inline-block;
+	width: 230px;
+}
+
+.song-item {
+	margin-top: 0px;
+	margin-bottom: 20px;
+}
+
+#number {
+	display:inline;
+}
 /* Define HTML Tags */
 
 input, button, select, option, textarea {
@@ -67,11 +88,14 @@ input, button, select, option, textarea {
 	margin-bottom: 10px;
 }
 
-#wrapper-status {
-	background-color:#390;
+#wrapper-status, #toddle {
+	background-color: #390;
 	padding: 5px;
 	margin-bottom: 10px;
-	text-align:center;
+	color: #333333;
+	font-family: "Helvetica Neue", Gotham, Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	text-align: left;
 }
 
 #wrapper-left {
