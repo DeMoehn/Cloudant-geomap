@@ -9,6 +9,11 @@ body {
 	font-family: "Helvetica Neue", Gotham, Helvetica, Arial, sans-serif;
 }
 
+body:after {
+	content: url(img/delete_icon.png) url(img/delete_hover.png);
+	display: none;
+}
+
 #title {
 	height: 104px;
 	margin-left: 30px;
@@ -56,6 +61,11 @@ body {
 .song-item {
 	margin-top: 0px;
 	margin-bottom: 20px;
+}
+
+.delete-icon {
+	margin: 2px;
+	float: right;
 }
 
 #number {

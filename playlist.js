@@ -50,11 +50,12 @@ $( document ).ready(function() {
       // Add every Song to the Playlist
       if(doc.songs.length > 0) {
         for(var i = 0; i < doc.songs.length; i++) {
-          $( "#sortable" ).append('<li class="song-item"><div class="song-list"><div id="number" style="display:inline">'+(i+1)+'</div>) <div id="artist" style="display:inline">'+doc.songs[i].artist+'</div> - <div id="song" style="display:inline">'+doc.songs[i].title+'</div></div></li>');
+          $( "#sortable" ).append('<li class="song-item"><div class="song-list" id='+doc._id+'><div id="number" style="display:inline">'+(i+1)+'</div>) <div id="artist" style="display:inline">'+doc.songs[i].artist+'</div> - <div id="song" style="display:inline">'+doc.songs[i].title+'</div><img src="img/delete_icon.png" class="delete-icon" width="15" height=""></div></li>');
         }
       }else{
         $( "#songs" ).append("No Songs included!");
       }
+      doTheButtons();
     }
 
     // - Show the Status Message on top of the page -
@@ -133,6 +134,8 @@ $( document ).ready(function() {
       $( "#sortable" ).disableSelection(); // Disable Text-Selection on sortables
       $( "#sortable" ).sortable({ axis: "y" });
       $( "#sortable" ).sortable({ cursor: "move" });
+
+      doTheButtons();
     };
 
 
@@ -244,47 +247,61 @@ $( document ).ready(function() {
       }
    });
 
+  function goThroughSonglist(deleter) {
+    var songs = [];
+    var artist, song, id;
+
+    for(var p=0; p < $("#sortable li").length; p++) {
+      if(p !== deleter) {
+        artist = $("#sortable li:eq("+p+")").find("#artist").text();
+        song = $("#sortable li:eq("+p+")").find("#song").text();
+        songs.push({"artist":artist,"title":song, "position":p});
+      }
+    }
+    saveSortedSongs(songs);
+  }
+
+  function doTheButtons() {
+    $(".delete-icon").hover(function () {
+          this.src = 'img/delete_hover.png';
+      }, function () {
+          this.src = 'img/delete_icon.png';
+    });
+
+    $(".delete-icon").css('cursor', 'pointer');
+
+    $(".delete-icon").click(function () {
+        goThroughSonglist($(this).closest("li").index());
+    });
+  }
+
   $( "#sortable" ).on( "sortstop", function( event, ui ) {
      var newIndex = Number(ui.item.index());
      var oldIndex = Number($(this).attr('data-previndex'));
-     var artist = "";
-     var song = "";
-     var songs = [];
 
      $(this).removeAttr('data-previndex');
      if(newIndex-oldIndex > 0) {
        for(var i=0; i <= newIndex-oldIndex; i++) {
          $("#sortable li:eq("+(oldIndex+i)+")").find("#number").text(oldIndex+i+1);
-        // artist = $("#sortable li:eq("+(oldIndex+i)+")").find("#artist").text();
-        // song = $("#sortable li:eq("+(oldIndex+i)+")").find("#song").text();
-        // songs.push({"artist":artist,"title":song, "position":(oldIndex+i)});
        }
      }else if(newIndex-oldIndex < 0) {
        for(var o=(newIndex-oldIndex)+1; o <= oldIndex; o++) {
          $("#sortable li:eq("+(oldIndex-o)+")").find("#number").text(oldIndex-o+1);
-        // artist = $("#sortable li:eq("+(oldIndex-o)+")").find("#artist").text();
-        // song = $("#sortable li:eq("+(oldIndex-o)+")").find("#song").text();
-        // songs.push({"artist":artist,"title":song, "position":(oldIndex-o)});
        }
      }
 
     if(newIndex-oldIndex !== 0) {
-      for(var p=0; p < $("#sortable li").length; p++) {
-        artist = $("#sortable li:eq("+p+")").find("#artist").text();
-        song = $("#sortable li:eq("+p+")").find("#song").text();
-        songs.push({"artist":artist,"title":song, "position":p});
-      }
-      saveSortedSongs(songs);
+      goThroughSonglist(-1);
     }
   });
 
   $( "#sortable" ).on( "sortstart", function(e, ui) {
-        $(this).attr('data-previndex', ui.item.index());
+      ($(this).attr('data-previndex', ui.item.index()));
     });
 
    // reset the artist name field if it is empty
    $( "#artistname" ).blur(function() {
-      if($( "#artistname" ).val() == "") {
+      if($( "#artistname" ).val() === "") {
          $( "#artistname" ).val("<Artist Name>");
       }
    });
@@ -298,7 +315,7 @@ $( document ).ready(function() {
 
    // reset the song name field if it is empty
    $( "#songname" ).blur(function() {
-      if($( "#songname" ).val() == "") {
+      if($( "#songname" ).val() === "") {
          $( "#songname" ).val("<Song Title>");
       }
    });
