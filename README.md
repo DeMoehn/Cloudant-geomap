@@ -20,4 +20,12 @@ How to run
 ```
       $ python -m SimpleHTTPServer 8000
 ```
-8. Visit http://local.dev:8000/crud.html
+8. OR: use the Server-Script to only run the server on localhost
+```
+      $ python server.py
+```
+9. Run the deployment Script (Creates views and sample data)
+```
+      $ ./deploy
+```
+10. Visit http://local.dev:8000/crud.html

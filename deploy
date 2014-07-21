@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. ./config
+dbUrl="https://$user:$pass@$user.cloudant.com/$db"
+curl='curl -sS'
+
+function putDoc { #file, mime type
+  $curl -X POST "$dbUrl" -H "Content-Type: application/json" -d "@$1"
+}
+
+$curl -X PUT $dbUrl
+putDoc 'design_docs/playlists.json'
+putDoc 'design_docs/songs.json'
+putDoc 'design_docs/songs_example.json'
