@@ -20,7 +20,7 @@ How to run
 ```
       $ sudo nano /etc/hosts
 ```
-5. Add a line like '127.0.0.1 local.dev' to the very end of the file. Press `Ctrl+X` to finish, Accept with `Y` and `Enter`)
+5. Add `127.0.0.1 local.dev` to the end of the file. Press `Ctrl+X` to finish, Accept with `Y` and `Enter`)
 6. Configure CORS support on Cloudant.  Swap `USERNAME` for your account name:
 ```
       $ curl -i -u USERNAME -X PUT https://USERNAME.cloudant.com/_api/v2/user/config/cors -H "Content-Type: application/json" -d '{"enable_cors":true,"allow_credentials":true,"allow_methods":["GET","PUT","POST","DELETE","OPTIONS"],"origins":["http://local.dev:8000"]}'
@@ -29,7 +29,7 @@ How to run
 ```
       $ python -m SimpleHTTPServer 8000
 ```
-8. OR: use the Server-Script to only run the server on localhost
+    OR: use the Server-Script to only run the server on localhost
 ```
       $ python server.py
 ```
