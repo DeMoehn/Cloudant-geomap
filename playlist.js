@@ -14,12 +14,15 @@ $( document ).ready(function() {
       url: docUrl,
       xhrFields: { withCredentials: true },
       type: "GET",
-      error: errorHandler
+      error: errorHandler,
+      complete: completeHandler
     }).done(function( data ) { // After the call is done
       var doc = JSON.parse(data); // Parse JSON Data into Obj. doc
       for(var i=0; i < doc.rows.length; i++) { // Go through each Document and insert into Dropdown
         $("#playlists").append(new Option(doc.rows[i].id, doc.rows[i].id)); // Set Value and Text of Select Option
       }
+    }).fail(function( data ) {
+      $("#playlists").append(new Option("No Playlists found", 0)); // Set Value and Text of Select Option
     });
 
     if(playl) { // If new Playlist was created
@@ -38,7 +41,8 @@ $( document ).ready(function() {
         url: docUrl,
         xhrFields: { withCredentials: true },
         type: "GET",
-        error: errorHandler
+        error: errorHandler,
+        complete: completeHandler
       }).done(function( data ) { // After the call is done
         var doc = JSON.parse(data); // Parse the JSON data
         for(var i=0; i < doc.rows.length; i++) {
@@ -91,7 +95,8 @@ $( document ).ready(function() {
       url: docUrl,
       xhrFields: { withCredentials: true },
       type: "GET",
-      error: errorHandler
+      error: errorHandler,
+      complete: completeHandler
     }).done(function( data ) { // After the call is done
       var doc = JSON.parse(data); // Parse data into Object
       doc.songs = songs;  // Replace songs - Array with the songs in the JSON
@@ -102,10 +107,9 @@ $( document ).ready(function() {
         type: "PUT",
         data: JSON.stringify(doc),
         contentType: "application/json",
-        error: errorHandler
+        error: errorHandler,
+        complete: completeHandler
       }).done(function( data ) { // After the call is done
-        var doc2 = JSON.parse(data); // Parse data into Object
-        $.JSONView(doc, $("#output-data")); // Create JSON optimized text-output
         showStatus("good", "<b>Status:</b> Updated Songs successfull"); // Show Status Message
         readPlaylists(); // Read Playlist again to verify update
       });
@@ -121,10 +125,10 @@ $( document ).ready(function() {
       url: docUrl,
       xhrFields: { withCredentials: true },
       type: "GET",
-      error: errorHandler
+      error: errorHandler,
+      complete: completeHandler
     }).done(function(data) { // if done, push data to function "readPlaylist"
       var doc = JSON.parse(data);
-      $.JSONView(doc, $("#output-data")); // Create JSON optimized text-output
       showStatus("good", "<b>Status:</b> Reading successfull"); // Show Status Message
       handlePlaylist(doc); // Read all Songs in the playlist
     });
@@ -179,6 +183,12 @@ $( document ).ready(function() {
     showStatus("bad", "<b>Status:</b> "+error); // Show Status Message
   }
 
+  // - Handle AJAX Completion -
+  function completeHandler(jqXHR, textStatus, errorThrown) {
+    $.JSONView(jqXHR, $("#output-data")); // Add the default JSON error data
+    $.JSONView(jqXHR.responseText, $("#output-resp")); // Add the default JSON error data
+  }
+
   // -- Start Settings --
 
   // - On Load of the Website -
@@ -209,10 +219,10 @@ $( document ).ready(function() {
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({_id: newplaylist, type: "playlist",songs: []}),
-            error: errorHandler
+            error: errorHandler,
+            complete: completeHandler
          }).done(function( data ) {
            var doc = JSON.parse(data);
-           $.JSONView(doc, $("#output-data")); // Create JSON optimized text-output
            $( "#toodle" ).text("Test");
            $( "#newplaylistname" ).val("");
            refreshDropdown(newplaylist); // Refresh the DropDown Menu
@@ -238,7 +248,8 @@ $( document ).ready(function() {
             url: docUrl,
             xhrFields: { withCredentials: true },
             type: "GET",
-            error: errorHandler
+            error: errorHandler,
+            complete: completeHandler
          }).done(function( data ) {
             var doc = JSON.parse(data);
             pos = doc.songs.length;
@@ -249,7 +260,8 @@ $( document ).ready(function() {
 	             type: "PUT",
 	             data: JSON.stringify(doc),
 	             contentType: "application/json",
-	             error: errorHandler
+	             error: errorHandler,
+               complete: completeHandler
             }).done(function( data ) {
       	       var doc2 = JSON.parse(data);
       	       $.JSONView(doc, $("#output-data")); // Create JSON optimized text-output
@@ -271,7 +283,8 @@ $( document ).ready(function() {
             url: docUrl,
             xhrFields: { withCredentials: true },
             type: "GET",
-            error: errorHandler
+            error: errorHandler,
+            complete: completeHandler
          }).done(function( data ) {
             var doc = JSON.parse(data);
             var rev = doc._rev;
@@ -279,7 +292,8 @@ $( document ).ready(function() {
 	             url: docUrl + "?rev=" + rev,
                xhrFields: { withCredentials: true },
 	             type: "DELETE",
-	             error: errorHandler
+	             error: errorHandler,
+               complete: completeHandler
             }).done(function( data ) {
       	       var doc2 = JSON.parse(data);
       	       $.JSONView(doc2, $("#output-data")); // Create JSON optimized text-output
