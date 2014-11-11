@@ -1,0 +1,5 @@
+https://demoehn3.cloudant.com/telematics/_design/geo/_geo/location?radius=1000&lat=48.796836&lon=9.011811&relation=contains
+https://demoehn3.cloudant.com/telematics/_design/geo/_geo/location?g=POINT(48.796836%209.01181)
+
+
+curl -X GET 'https://demoehngeo.cloudant.com/telematics/_design/new/_geo/geo?radius=100000&lat=48.796836&lon=9.011811&relation=contains'

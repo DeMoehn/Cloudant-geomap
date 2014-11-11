@@ -1,0 +1,3 @@
+curl -i -u demoehn3 -X PUT 'https://demoehn3.cloudant.com/_api/v2/user/config/cors' -H 'content-type:application/json' -d '{"allow_credentials": true, "allow_methods": ["GET", "PUT", "POST", "DELETE", "OPTIONS"], "enable_cors": true, "origins":["http://localhost", "http://local.dev", "http://local.dev:8000"]}'
+
+curl -i -u demoehn3 -X GET 'https://demoehn3.cloudant.com/_api/v2/user/config/cors'
