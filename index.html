@@ -1,6 +1,13 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <!-- META TAGS -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Cloudant GeoSpatial Map">
+    <meta name="author", content="Sebastian Moehn">
+    <meta name="apple-mobile-web-app-capable", content="yes">
     <title>Cloudant Geo Example</title>
     <!-- CSS -->
     <link href="css/KelpJSONView.css" type="text/css" rel="stylesheet">
@@ -22,51 +29,57 @@
     <script src="map.js"></script>
   </head>
   <body>
-	<div id="totalwrapper">
-    	<div id="wrapper-top">
-        	<table><tr>
-        	  <td><img src="img/cloudant.png" width="364" height="104"></td>
-            <td><div id="title"><b>Map Example</b></div></td></tr>
-            </table>
-        </div>
-        <div id="wrapper-status">
-			    <div id="toodle"></div>
-       </div>
-		<div id="wrapper-left">
-      <div id="map"></div>
-		</div>
+    <div id="online">
+      <div id="status">•</div><div id="online_status">Status</div>
+    </div>
 
-  		<div id="wrapper-right">
-        	<div class="title-medium">Cars:</div>
-        	<div id="buttons">
-            <div id="add-cars">
-              <select size="5" id="cars_combo">
-              </select>
-            </div>
-            <input type="button" id="line" value="Draw Car Speed Line" style="margin-left:5px; margin-top: 5px"><br />
-            <div style="margin-left:7px; margin-bottom: 15px; margin-top: 10px">
-              <label for="amount" style="font-size: 11px;">Max Geo-Points:</label>
-              <input type="text" id="amount" readonly style="border:0; width: 50px; font-size: 11px;">
-              <div id="slider-range-min" style="width: 100px; display:inline-block; margin-left: 10px;"></div>
-            </div>
-            <div style="margin-left: 5px">
-              <input type="button" id="load" value="Create Heatmap"></td>
-            </div>
-            <div style="margin-left: 5px">
-              <input type="button" id="regions" value="Show Regions"></td>
-            </div>
+  	<div id="totalwrapper">
+      	<div id="wrapper-top">
+          	<table><tr>
+          	  <td><img src="img/cloudant.png" width="364" height="104"></td>
+              <td><div id="title"><b>Map Example</b></div></td></tr>
+              </table>
           </div>
-		  </div>
-      <div id ="wrapper-bottom">
-        <div id="output">
-          <div class="title-medium">Cloudant JSON Response:</div>
-          <div id="cloudant-response"><p><pre id="output-data"></pre></p></div>
-          <div class="title-medium">Data:</div>
-          <div id="cloudant-response"><p><pre id="car-data"></pre></p></div>
-			  </div>
-      </div>
+          <div id="wrapper-status">
+  			    <div id="toodle"></div>
+         </div>
+  		<div id="wrapper-left">
+        <div id="map"></div>
+  		</div>
 
-   <div id="floatclear"></div>
+    		<div id="wrapper-right">
+          	<div class="title-medium">Cars:</div>
+          	<div id="buttons">
+              <div id="add-cars">
+                <select size="5" id="cars_combo">
+                </select>
+              </div>
+              <input type="button" id="line" value="Draw Car Speed Line" style="margin-left:5px; margin-top: 5px"><br />
+              <div style="margin-left:7px; margin-bottom: 15px; margin-top: 10px">
+                <label for="amount" style="font-size: 11px;">Max Geo-Points:</label>
+                <input type="text" id="amount" readonly style="border:0; width: 50px; font-size: 11px;">
+                <div id="slider-range-min" style="width: 100px; display:inline-block; margin-left: 10px;"></div>
+              </div>
+              <div style="margin-left: 5px">
+                <input type="button" id="load" value="Create Heatmap"></td>
+              </div>
+              <div style="margin-left: 5px">
+                <input type="button" id="regions" value="Show Regions"></td>
+              </div>
+              <div style="margin-left: 5px">
+                <input type="button" id="tester" value="Tester"></td>
+              </div>
+            </div>
+  		  </div>
+        <div id ="wrapper-bottom">
+          <div id="output">
+            <div class="title-medium">Cloudant JSON Response:</div>
+            <div id="cloudant-response"><p><pre id="output-data"></pre></p></div>
+            <div class="title-medium">Data:</div>
+            <div id="cloudant-response"><p><pre id="car-data"></pre></p></div>
+  			  </div>
+        </div>
+        <div id="floatclear"></div>
    </div>
   </body>
 </html>
