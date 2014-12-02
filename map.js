@@ -5,6 +5,22 @@ $( document ).ready(function() {
   var speedLine = L.layerGroup; // LayerGroup for car positions
 
 // -- Helper Functions --
+  // - Things to do on Page start -
+  function onStartup() {
+    $(".carinfo").hide(); // Hide Car Information Box
+    $( "#slider-range-min" ).slider({ // Set range for Points Slider
+        range: "min",
+        value: 37,
+        min: 1,
+        max: 700,
+        disabled: true,
+        slide: function( event, ui ) {
+          $("#amount").val(ui.value );
+        }
+      });
+    $("#amount").val("none"); // Set value for Points Amount
+  }
+
   // - Set Colors for car position -
   speedGrades = [0, 10, 30, 50, 80, 100, 120, 150];
   colorGrades = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026']
@@ -25,7 +41,6 @@ $( document ).ready(function() {
   var onlineStat = false;
   function checkOnline() {
     var online = navigator.onLine;
-    console.log(online);
     if(online) {
       $("#online_status").html("Online");
       $("#status").css("color", "#390");
@@ -46,6 +61,7 @@ $( document ).ready(function() {
       map.removeLayer(speedLine);
     }
     $('.legend').hide();
+    $('.carinfo').show();
   }
 
   // - Get Location by latLong -
@@ -180,7 +196,7 @@ $( document ).ready(function() {
   // - Load the Geo Data -
   function createHeatmap() {
     var addressPoints2 = [];
-    var docUrl = baseUrl + db + "/_design/cars/_view/heatmap?group_level=1"; // URL of the Playlists view
+    var docUrl = baseUrl + db + "/_design/cars/_view/heatmap2?group_level=1"; // URL of the Playlists view
 
     $.ajax({ // Start AJAX Call to Playlists view
       url: docUrl,
@@ -226,6 +242,7 @@ $( document ).ready(function() {
       complete: completeHandler
     }).done(function( data ) { // After the call is done
       var doc = JSON.parse(data); // Parse JSON Data into Obj. doc
+      //$.JSONView(doc, $("#car-data")); 
       doc.rows.forEach(function(point) {
         point = point.value;
         color = getColor(point.speed);
@@ -234,7 +251,7 @@ $( document ).ready(function() {
           fillColor: color,
           fillOpacity: 0.5
         };
-        circle = L.circle([point.geometry.coordinates[0],point.geometry.coordinates[1]], 200, options);
+        circle = L.circle([point.geometry.coordinates[1],point.geometry.coordinates[0]], 200, options);
         circles.push(circle);
 
         circle.speed = "<b>Speed: </b>"+point.speed+" km/h<br />";
@@ -249,18 +266,45 @@ $( document ).ready(function() {
           obj.openPopup();
         });
       });
-      map.setView([doc.rows[0].value.geometry.coordinates[0], doc.rows[0].value.geometry.coordinates[1]], 6);
+      map.setView([doc.rows[0].value.geometry.coordinates[1], doc.rows[0].value.geometry.coordinates[0]], 6);
       speedLine = L.layerGroup(circles).addTo(map);
+    });
+  }
+
+  // Load Statistics
+  function getStats(key) {
+    var docUrl = baseUrl + db + '/_design/cars/_view/stats?&key="'+key+'"&group_level=1'; // URL of the Playlists view
+
+    $.ajax({ // Start AJAX Call to Playlists view
+      url: docUrl,
+      xhrFields: { withCredentials: true },
+      type: "GET",
+      error: errorHandler,
+      complete: completeHandler
+    }).done(function( data ) { // After the call is done
+      var doc = JSON.parse(data); // Parse JSON Data into Obj. doc
+      var count = doc.rows[0].value.count;
+      var sum = doc.rows[0].value.sum;
+      var max = doc.rows[0].value.max;
+      var min = doc.rows[0].value.min;
+      var avg = Math.round(sum/count);
+      $(".carinfocontent").html("<b>Max Speed: </b>"+max+" km/h <br />"
+                                          +"<b>Min Speed: </b>"+min+" km/h <br />"
+                                          +"<b>Avg Speed: </b>"+avg+" km/h <br />"
+
+      );
+
+      console.log("Anzahl: "+count+", max: "+max+", min: "+min+", avg: "+avg);
     });
   }
 
   // Geodaten anhand der Freihandzeichnungen Laden
   function handleDrawing(e) {
-    var docUrl = baseUrl+db+"/_design/geo/_geo/location"; // Basis Dokument URL
+    var docUrl = baseUrl+db+"/_design/SpatialView/_geo/geo"; // Basis Dokument URL
 
     // Abfrage des Typs der Zeichnung
     if(e.layerType == "circle") {
-      docUrl += '?radius='+e.layer._radius+'&lat='+e.layer._latlng.lat+'&lon='+e.layer._latlng.lng+'&relation=within'; // Cloudant Geo für Kreise
+      docUrl += '?radius='+e.layer._mRadius+'&lat='+e.layer._latlng.lat+'&lon='+e.layer._latlng.lng+'&relation=contains&limit=200'; // Cloudant Geo doesn't accept LatLong, instead it's LongLat for some reason...
       console.log("circle");
     }else if( (e.layerType == "rectangle") || (e.layerType == "polygon") ) {
       docUrl += '?g=POLYGON( ('; // Cloudant Geo Polygon
@@ -268,8 +312,8 @@ $( document ).ready(function() {
       e.layer._latlngs.forEach(function(latlng) {
         docUrl += latlng.lat+'%20'+latlng.lng+',';
       });
-      docUrl = docUrl.slice(0, docUrl.length-1); // Letztes Zeichen (Komma) abschneiden
-      docUrl += '))&relation=within'; // Alle Punkte die innerhalt des Polygons sind anzeigen
+      docUrl += e.layer._latlngs[0].lat+'%20'+e.layer._latlngs[0].lng // The first Point needs to be the last as well
+      docUrl += '))&relation=contains'; // Alle Punkte die innerhalt des Polygons sind anzeigen
       console.log(e.layerType);
     }else if(e.layerType == "marker"){
       getLocation(e);
@@ -282,6 +326,32 @@ $( document ).ready(function() {
     }
 
     console.log("Query: "+docUrl); // Show final docUrl
+    if( (e.layerType == "circle") ||  (e.layerType == "rectangle") || (e.layerType == "polygon") ) {
+      var circles = Array();
+
+      $.ajax({ // Start AJAX Call to Geo view
+        url: docUrl,
+        xhrFields: { withCredentials: true },
+        type: "GET",
+        error: errorHandler,
+        complete: completeHandler
+      }).done(function( data ) { // After the call is done
+        var doc = JSON.parse(data); // Parse JSON Data into Obj. doc
+        console.log(doc);
+        doc.features.forEach(function(point) {
+          point = point.geometry;
+          var options = {
+            fillOpacity: 0.5
+          };
+          circle = L.circle([point.coordinates[1],point.coordinates[0]], 200, options);
+          circles.push(circle);
+        });
+        if(doc.features.length > 0) {
+          map.setView([doc.features[0].geometry.coordinates[1], doc.features[0].geometry.coordinates[0]], 6);
+        };
+        speedLine = L.layerGroup(circles).addTo(map);
+      });
+    }
   }
 
   // - Load the available cars -
@@ -296,7 +366,7 @@ $( document ).ready(function() {
     }).done(function( data ) { // After the call is done
       var doc = JSON.parse(data); // Parse JSON Data into Obj. doc
       for(var i=0; i < doc.rows.length; i++) { // Go through each Document and insert into Dropdown
-        $("<option data-geo='"+doc.rows[i].value+"' value='"+doc.rows[i].key+"'> Car Number "+(i+1)+": "+doc.rows[i].value+" Geo-Points</option>").appendTo("#cars_combo");
+        $("<option data-geo='"+doc.rows[i].value+"' value='"+doc.rows[i].key+"'> Car "+(i+1)+" ("+doc.rows[i].value+" Geo-Points)</option>").appendTo("#cars_combo");
       }
     });
   }
@@ -324,7 +394,7 @@ $( document ).ready(function() {
 
   $( "#load" ).click(function( event ) {
     cleanMap();
-   createHeatmap();
+    createHeatmap();
   });
 
   $( "#regions" ).click(function( event ) {
@@ -339,7 +409,9 @@ $( document ).ready(function() {
   $( "#line" ).click(function( event ) {
     cleanMap();
     drawSpeedLine($('#cars_combo').val(), $("#slider-range-min").slider( "value" )); // Draw the speed line with DEVICE_ID and MaxGeo Points
+    getStats($('#cars_combo').val()); // Receive Statistics about the car
     $('.legend').show(); // Show legend for cars
+    $(".carinfo").show();
   });
 
   $('#cars_combo').click(function( event ) {
@@ -356,16 +428,14 @@ $( document ).ready(function() {
 
     $("#amount").val($("#slider-range-min").slider( "value" ));
   });
-
-  $( "#slider-range-min" ).slider({
-      range: "min",
-      value: 37,
-      min: 1,
-      max: 700,
-      disabled: true,
-      slide: function( event, ui ) {
-        $("#amount").val(ui.value );
-      }
-    });
-  $("#amount").val("none");
+  onStartup();
+}).bind("ajaxSend", function() {
+    $(".loader").show();
+    console.log("AJAX send!");
+}).bind("ajaxStop", function() {
+    $(".loader").hide();
+    console.log("AJAX stopped");
+}).bind("ajaxError", function() {
+    $(".loader").hide();
+    console.log("AJAX error");
 });

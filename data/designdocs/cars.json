@@ -1,0 +1,22 @@
+{
+  "_id": "_design/cars",
+  "views": {
+    "showCars": {
+      "reduce": "_sum",
+      "map": "function(doc) {\n    if(doc.DEVICE_ID) {\n        emit(doc.DEVICE_ID, 1);\n    }\n}"
+    },
+    "heatmap": {
+      "map": "function(doc) {\n    if(doc.DEVICE_ID) {\n        emit(1, [doc.geometry.coordinates[0],doc.geometry.coordinates[1]]);\n    }\n}",
+      "reduce": "function(keys, values, rereduce){\n    return values;\n}"
+    },
+    "showEvents": {
+      "reduce": "_sum",
+      "map": "function(doc) {\n    if(doc.EVENT_ID) {\n  emit(doc.EVENT_ID, 1);\n    }\n}"
+    },
+    "heatmap2": {
+      "reduce": "function(keys, values, rereduce){\n  if (rereduce){\n    for (var vari in values) {\n        return values[vari];\n    }\n  } else {\n    return value;\n  }\n \n}",
+      "map": "function(doc) {\n    if(doc.DEVICE_ID) {\n        emit(1, [doc.geometry.coordinates[0],doc.geometry.coordinates[1]]);\n    }\n}"
+    }
+  },
+  "language": "javascript"
+}

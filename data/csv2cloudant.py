@@ -7,12 +7,12 @@ import sys
 config = dict(
     username="demoehn3",
     password="a11HQSM54!!",
-    database="telematics")
+    database="telematics2")
 
 # dict of table names and their csv representations
 csv_lookup = {
     # "table_name": "path/to/file.csv"
-    "test": "data_big.csv",
+    "test": "data_biggest.csv",
 }
 
 # dict of request data, which we'll upload to Cloudant
@@ -25,9 +25,12 @@ for table, filepath in csv_lookup.iteritems():
         reader = csv.DictReader(f, skipinitialspace=True, quotechar='"', delimiter=',')
         # put into request body
         for row in csv.DictReader(f):
-            row.update({"geometry": {  "type": "Point", "coordinates": [float(row["LATITUDE"]), float(row["LONGITUDE"]), float(row["ALTITUDE"])]}})
+            row.update({"geometry": {  "type": "Point", "coordinates": [float(row["LONGITUDE"]), float(row["LATITUDE"]), float(row["ALTITUDE"])]}}) #GeoJSON uses LongLat instead of LatLong!
             row.update({"acceleration": [float(row["ACC_X"]), float(row["ACC_Y"]), float(row["ACC_Z"])]})
             del row["LONGITUDE"], row["LATITUDE"], row["ALTITUDE"], row["ACC_X"], row["ACC_Y"], row["ACC_Z"]
+            # Clean unneccesary information
+            del row["BRAKE_STATUS"], row["ROAD_DIRECTION"], row["POWER_USAGE"],  row["ROAD_ID"], row["ROAD_TYPE"], row["WINKER_STATUS"], row["REVERSE_STATUS"]
+            del row["DRIVE_DISTANCE"], row["DATUM"]
             request_data['docs'].append(row)
             requests_data[table] = request_data
 
