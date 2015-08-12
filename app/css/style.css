@@ -2,11 +2,6 @@
 	margin: 0;
 }
 
-#map {
-	height: 400px;
-	background-color: #FFF;
-}
-
 body {
 	background-color: #666;
 	color: #333333;
@@ -24,7 +19,7 @@ body {
 	padding-top: 53px;
 }
 
-.title-medium {
+.title-large {
 	font-size: 16px;
 	font-weight: bold;
 	margin-bottom: 10px;
@@ -33,12 +28,22 @@ body {
 	border-style: none none solid;
 }
 
-#cloudant-response {
-	padding: 5px;
+.title-medium {
+	font-size: 13px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	border-bottom-color: #333333;
+	border-bottom-width: 1px;
+	border-style: none none solid;
 }
 
-#output {
-	margin-top: 20px;
+.content-medium {
+	margin-left: 10px;
+}
+
+#cloudant-response {
+	padding: 5px;
 }
 
 /* Define HTML Tags */
@@ -53,7 +58,7 @@ input, button, select, option, textarea {
 /* Define Wrappers */
 
 #totalwrapper {
-	background-color: #FFF;
+	background-color: #000;
 	width: 950px;
 	display: block;
 	margin-top: 20px;
@@ -91,7 +96,12 @@ input, button, select, option, textarea {
 	padding: 10px;
 	float: left;
 	width: 600px;
-	min-height: 400px;
+	min-height: 600px;
+}
+
+#map {
+	height: 600px;
+	background-color: #FFF;
 }
 
 #wrapper-right{
@@ -100,7 +110,7 @@ input, button, select, option, textarea {
 	float: left;
 	width: 300px;
 	margin-left: 10px;
-	min-height: 400px;
+	min-height: 600px;
 }
 
 #floatclear {
@@ -108,7 +118,13 @@ input, button, select, option, textarea {
 }
 
 #cars_combo {
-	width: 290px;
+	width: 280px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+#routes_combo {
+	width: 280px;
 	margin-left: 5px;
 	margin-right: 5px;
 }
@@ -179,3 +195,23 @@ input, button, select, option, textarea {
 	margin-top: 10px;
 	padding: 2px;
 }
+
+
+h3 {
+	margin: 0;
+	background-color: #0AF;
+}
+
+h3 a {
+	background: url("../img/sprite.png") 15px 13px no-repeat;
+	display: block;
+	padding: 10px;
+	padding-left: 32px;
+	margin: 0;
+	color: #000;
+	text-decoration: none;
+	font-weight: normal;
+}
+h3:hover { background: #0298E3; }
+h3.open  { background: #28B4FA; }
+h3.open a { background-position: 13px -25px; }
