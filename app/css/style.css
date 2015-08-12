@@ -2,6 +2,10 @@
 	margin: 0;
 }
 
+html,body {
+    height:100%;
+}
+
 body {
 	background-color: #666;
 	color: #333333;
@@ -46,6 +50,51 @@ body {
 	padding: 5px;
 }
 
+/* Input Styles */
+
+.btn {
+	background: #FFF;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  font-family: "Helvetica Neue", Gotham, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  padding: 5px 15px 5px 15px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  border-color: #0CF;
+  text-decoration: none;
+}
+
+.btn:disabled {
+	border-color: #CCC;
+	color: #CCC;
+}
+
+.input {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-family: "Helvetica Neue", Gotham, Helvetica, Arial, sans-serif;
+	padding: 2px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000;
+}
+
+.input:hover {
+	border-color: #0CF;
+}
+
+.input:focus {
+	border-color: #0CF;
+}
+
 /* Define HTML Tags */
 
 input, button, select, option, textarea {
@@ -58,12 +107,12 @@ input, button, select, option, textarea {
 /* Define Wrappers */
 
 #totalwrapper {
-	background-color: #000;
+	background-color: #FFF;
 	width: 950px;
 	display: block;
 	margin-top: 20px;
-  	margin-left: auto;
-  	margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 	padding: 10px;
 }
 
@@ -71,14 +120,6 @@ input, button, select, option, textarea {
 	background-color:#0CF;
 	padding: 5px;
 	margin-bottom: 10px;
-}
-
-#wrapper-bottom {
-	background-color:#0CF;
-	padding: 5px;
-	margin-top: 10px;
-	float:left;
-	width: 940px;
 }
 
 #wrapper-status, #toddle {
@@ -91,12 +132,54 @@ input, button, select, option, textarea {
 	text-align: left;
 }
 
-#wrapper-left {
+#container3 {
+	float:left;
+	width:100%;
+	background:#0CF;
+	overflow:hidden;
+	position:relative;
+}
+
+#container2 {
+	float:left;
+	 width:100%;
+	 background: #FFF;
+	 position:relative;
+	 right:320px;
+}
+#container1 {
+	float:left;
+	width:100%;
 	background-color:#0CF;
-	padding: 10px;
-	float: left;
+	position:relative;
+	right:10px;
+}
+
+#wrapper-left {
+	float:left;
 	width: 600px;
-	min-height: 600px;
+	position:relative;
+	left:340px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	overflow:hidden;
+}
+
+#wrapper-right{
+	width: 300px;
+	margin: 10px;
+	margin-left: 20px;
+	position:relative;
+	left:370px;
+	overflow:hidden;
+}
+
+#wrapper-space {
+	float:left;
+	width:100px;
+	position:relative;
+	left:0%;
+	overflow:hidden;
 }
 
 #map {
@@ -104,17 +187,15 @@ input, button, select, option, textarea {
 	background-color: #FFF;
 }
 
-#wrapper-right{
-	background-color:#0CF;
-	padding: 10px;
-	float: left;
-	width: 300px;
-	margin-left: 10px;
-	min-height: 600px;
-}
-
 #floatclear {
 	clear: both;
+}
+
+#wrapper-bottom {
+	background-color:#0CF;
+	padding: 5px;
+	margin-top: 10px;
+	width: 940px;
 }
 
 #cars_combo {
@@ -128,11 +209,6 @@ input, button, select, option, textarea {
 	margin-left: 5px;
 	margin-right: 5px;
 }
-
-/* jQuery Sortable */
-#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-#sortable li span { position: absolute; margin-left: -1.3em; }
 
 /* Online Status */
 #online {
@@ -194,8 +270,13 @@ input, button, select, option, textarea {
 	margin-right: 10px;
 	margin-top: 10px;
 	padding: 2px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-family: "Helvetica Neue", Gotham, Helvetica, Arial, sans-serif;
 }
 
+/* Headings */
 
 h3 {
 	margin: 0;

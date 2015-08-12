@@ -1,8 +1,0 @@
-https://demoehn3.cloudant.com/telematics/_design/SpatialView/_geo/geo?radius=1000&lat=48.796836&lon=9.011811&relation=witin
-https://demoehn3.cloudant.com/telematics/_design/SpatialView/_geo/geo?g=POINT(48.796836%209.011811) --> works!
-https://demoehn3.cloudant.com/telematics/_design/SpatialView/_geo/geo?g=POINT(48.795663%209.010453) --> works!
-
-curl -X GET 'https://demoehngeo.cloudant.com/telematics/_design/new/_geo/geo?radius=100000&lat=48.796836&lon=9.011811&relation=contains'
-curl -X GET 'https://demoehn3.cloudant.com/telematics/_design/SpatialView/_geo/geo?radius=108&lat=53.735715745326395&lon=9.393310546875&relation=within'
-
-https://demoehn3.cloudant.com/telematics/_design/SpatialView/_geo/geo?g=POLYGON((53.839563678833606%209.371337890625,52.25470880113083%207.371826171874999,51.67255514839676%209.986572265624998,52.92215137976296%2013.018798828125,53.9560855309879%2011.392822265624998))&relation=within

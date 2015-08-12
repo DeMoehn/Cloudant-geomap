@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Cloudant GeoSpatial Map">
-    <meta name="author", content="Sebastian Moehn">
-    <meta name="apple-mobile-web-app-capable", content="yes">
+    <meta name="author" content="Sebastian Moehn">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Cloudant Geo Example</title>
     <!-- CSS -->
     <link href="css/KelpJSONView.css" type="text/css" rel="stylesheet">
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
-    <link href='css/leaflet.draw.css' rel='stylesheet' />
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' type="text/css" rel='stylesheet'>
+    <link href='css/leaflet.draw.css' type="text/css" rel='stylesheet'>
     <link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+    <link href="css/sweet-alert.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" type="text/css" rel="stylesheet">
     <!-- JS -->
     <script src="config"></script>
@@ -36,87 +36,105 @@
     </div>
 
   	<div id="totalwrapper">
-      	<div id="wrapper-top">
-          	<table><tr>
-          	  <td><img src="img/cloudant.png" width="364" height="104"></td>
-              <td><div id="title"><b>GeoMap Example</b></div></td></tr>
-              </table>
-          </div>
-          <div id="wrapper-status">
-  			    <div id="toodle"></div>
-         </div>
-  		<div id="wrapper-left">
-        <div id="map"><div class="loader">
-        </div></div>
-  		</div>
 
-    		<div id="wrapper-right">
+      <!-- Top Wrapper -->
+      <div id="wrapper-top">
+        <table>
+          <tr>
+            <td><img src="img/cloudant.png" width="364" height="104"></td>
+            <td><div id="title"><b>GeoMap Example</b></div></td>
+          </tr>
+        </table>
+      </div>
 
-          <div>
-            <div class="title-large">My Cars</div>
-            <div class="content-medium">
-              <div class="title-medium" id="mycars">My Cars:</div>
-              <div id="add-cars">
-                <select size="5" id="cars_combo">
-                </select>
+      <!-- Status Wrapper -->
+      <div id="wrapper-status">
+        <div id="toodle"></div>
+      </div>
+
+      <div id="container3">
+        <div id="container2">
+          <div id="container1">
+            <!-- Left Wrapper -->
+            <div id="wrapper-left">
+              <div id="map"><div class="loader">
+              </div></div>
+            </div>
+
+            <!-- Right Wrapper -->
+            <div id="wrapper-right">
+              <div>
+                <div class="title-large">My Cars</div>
+                <div class="content-medium">
+                  <div class="title-medium" id="mycars">My Cars:</div>
+                  <div id="add-cars">
+                    <select size="5" id="cars_combo" class="input"></select>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="title-large">Routes</div>
+                <div class="content-medium">
+                  <div class="title-medium" id="myroutes">My Routes:</div>
+                  <div id="add-routes">
+                    <select size="8" id="routes_combo" class="input" disabled>
+                      <option value="0">Select a car to show routes</option>
+                    </select>
+                  </div>
+                  <input type="button" id="draw-route" value="Draw Route (Select Car)" class="btn" disabled>
+                </div>
+              </div>
+
+              <div>
+                <div class="content-medium">
+                  <input type="button" id="create-heatmap" value="Create Heatmap (Select Car)" class="btn" disabled></td>
+                </div>
+              </div>
+
+              <div>
+                <div class="title-medium" id="otheroptions">Other Options</div>
+                <div style="margin-left: 5px">
+                  <input type="button" id="regions" value="Show Regions" class="btn"></td>
+                </div>
+                <div style="margin-left: 5px">
+                  <input type="button" id="cleanmap" value="Clean Map" class="btn"></td>
+                </div>
+                <div style="margin-left: 5px">
+                  <input type="button" id="centermap" value="Center Map to Germany" class="btn"></td>
+                </div>
+              </div>
+
+              <div class="carinfo" style="margin-top: 5px;">
+                <div class="title-medium" id="carinfo">Car Information:</div>
+                <div class="medium-content">
+                  <div class="carinfocontent"></div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div>
-            <div class="title-large">Routes</div>
-            <div class="content-medium">
-              <div class="title-medium" id="myroutes">My Routes:</div>
-              <div id="add-routes">
-                <select size="8" id="routes_combo" disabled>
-                  <option value="0">Select a car to show routes</option>
-                </select>
-              </div>
-              <input type="button" id="draw-route" value="Draw Route (Select Car)" style="margin-left:5px; margin-top: 5px" disabled>
+            <!-- Space Wrapper -->
+            <div id="wrapper-space">
+              <p>test</p>
             </div>
-          </div>
 
-          <div>
-            <div class="title-large-collapse">Heatmap</div>
-            <div class="content-medium">
-              <div style="margin-left: 5px">
-                <input type="button" id="create-heatmap" value="Create Heatmap (Select Car)" style="margin-left:5px; margin-top: 5px" disabled></td>
-              </div>
-            </div>
           </div>
-
-          <div>
-            <div class="title-large-collapse" style="margin-top:10px">Other Options</div>
-            <div style="margin-left: 5px">
-              <input type="button" id="regions" value="Show Regions"></td>
-            </div>
-            <div style="margin-left: 5px">
-              <input type="button" id="cleanmap" value="Clean Map"></td>
-            </div>
-            <div style="margin-left: 5px">
-              <input type="button" id="centermap" value="Center Map to Germany"></td>
-            </div>
-          </div>
-
-          <div class="carinfo" style="margin-top: 5px;">
-            <div class="title-large-collapse">Car Information:</div>
-            <div class="medium-content">
-              <div class="carinfocontent"></div>
-            </div>
-          </div>
-  		  </div>
-        <div id ="wrapper-bottom">
-          <div id="output">
-            <div id="cloudant-response" data-collapse>
-              <h3>Cloudant JSON Response</h3>
-              <div><pre id="output-data"></pre></div>
-
-              <h3>Geo JSON Response</h3>
-              <div><pre id="output-data2"></pre></div>
-            </div>
-  			  </div>
         </div>
-        <div id="floatclear"></div>
+      </div>
+      <div id="floatclear"></div>
+
+      <!-- Bottom Wrapper -->
+      <div id ="wrapper-bottom">
+        <div id="output">
+          <div id="cloudant-response" data-collapse>
+            <h3>Cloudant JSON Response</h3>
+            <div><pre id="output-data"></pre></div>
+            <h3>Geo JSON Response</h3>
+            <div><pre id="output-data2"></pre></div>
+          </div>
+        </div>
+      </div>
+
    </div>
   </body>
 </html>

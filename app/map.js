@@ -4,13 +4,16 @@ $( document ).ready(function() {
 // - Global Variables -
 // -----------------------
 
-  var baseUrl = "https://"+user+":"+pass+"@"+user+".cloudant.com/"; // Base URL of Cloudant
+  var baseUrl = 'https://'+accountname+'.cloudant.com/'; // Base URL of Cloudant
+  var cloudant_auth = btoa(user + ':' + pass); // Creates a Base64 String of the User and Pass
+
   var speedLine = L.layerGroup; // LayerGroup for single car positions
   var polyLineGroup = L.layerGroup; // LayerGroup for car route
   var markerGroup =  L.layerGroup; // LayerGroup for marker
   var statesGroup = L.layerGroup; // LayerGroup for states
   var heatmapGroup = L.layerGroup; // LayerGroup for the heatmap
   var routesMarkerGroup = L.layerGroup; // LayerGroup for the Route Markers
+
   var states = Array(); // Array for all the states
   var map; // The map
   var mapViewLat = 50.56928286558243; // Standard view on map for Lat
@@ -24,7 +27,7 @@ $( document ).ready(function() {
   var regions = false; // Indicates if Regions are shown
   var heatmap = false; // Indicates if the heatmap is shown
   var showTheRoutes = true; // Indicates if Routes should be shown on map
-  selectRoute = 0; // Route which should be automatically selected
+  var selectRoute = 0; // Route which should be automatically selected
 
 // -------------------------
 // - General Functions -
@@ -592,22 +595,17 @@ $( document ).ready(function() {
 
   // -- Cleans the Map --
   function cleanMap() {
-    if(map.hasLayer(speedLine)) {
-      map.removeLayer(speedLine);
-    }
-    if(map.hasLayer(polyLineGroup)) {
-      map.removeLayer(polyLineGroup);
-    }
-
-    if(map.hasLayer(markerGroup)) {
-      map.removeLayer(markerGroup);
-    }
-
-    if(map.hasLayer(routesMarkerGroup)) {
-      map.removeLayer(routesMarkerGroup);
-    }
-
+    removeTheLayer([speedLine, polyLineGroup, markerGroup, statesGroup, heatmapGroup, routesMarkerGroup]);
     $('.legend').hide();
+  }
+
+  // -- Remove Layer (with testing) --
+  function removeTheLayer(layersArr) {
+    layersArr.forEach(function(layer) {
+      if(map.hasLayer(layer)) {
+        map.removeLayer(layer);
+      }
+    })
   }
 
   // - AJAX GET -
@@ -616,7 +614,8 @@ $( document ).ready(function() {
       url: docUrl,
       crossDomain: true,
       xhrFields: { withCredentials: true },
-      type: "GET",
+      type: 'GET',
+      headers: {'Authorization': 'Basic ' + cloudant_auth, 'Content-Type': 'application/json'},
       error: errorHandler,
       complete: completeHandler
     }).done(func);
@@ -690,8 +689,6 @@ $( document ).ready(function() {
   // -- Button: Clean Map --
   $( "#cleanmap" ).click(function( event ) {
     cleanMap();
-    regions = true;
-    $("#regions").click();
   });
 
   // -- Button: Center Map --
