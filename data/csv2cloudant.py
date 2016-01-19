@@ -7,7 +7,7 @@ import sys
 config = dict(
     username="demoehn3",
     password="a11HQSM54!!",
-    database="telematics2")
+    database="telematics3")
 
 # dict of table names and their csv representations
 csv_lookup = {
