@@ -1,17 +1,14 @@
 {
   "_id": "_design/cars",
-  "_rev": "8-e602280a06ba7e200d35a48e7b3689e4",
+  "_rev": "7-bb74d6787f5311465cead446224a3f88",
   "views": {
     "showCars": {
       "reduce": "_sum",
-      "map": "function(doc) {\n    if(doc.DEVICE_ID) {\n        emit(doc.DEVICE_ID, 1);\n    }\n}"
+      "map": "function(doc) {\n    if( (doc.DEVICE_ID) && (doc.EVENT_ID) ){\n        emit([doc.DEVICE_ID, doc.EVENT_ID.slice(0, 8)], 1);\n    }\n}"
     },
-    "heatmap": {
-      "map": "function(doc) {\n    if(doc.DEVICE_ID) {\n        emit(doc.DEVICE_ID, doc.geometry.coordinates);\n    }\n}"
-    },
-    "showEvents": {
-      "reduce": "_sum",
-      "map": "function(doc) {\n    if(doc.EVENT_ID) {\n  emit(doc.EVENT_ID, 1);\n    }\n}"
+    "stats": {
+      "reduce": "_stats",
+      "map": "function(doc) {\n    if(doc.DEVICE_ID) {\n        emit([doc.DEVICE_ID, doc.EVENT_ID.slice(0, 8)], parseInt(doc.SPEED, 10));\n    }\n}"
     }
   },
   "language": "javascript"

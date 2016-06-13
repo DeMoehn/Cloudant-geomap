@@ -1,9 +1,0 @@
-{
-  "_id": "_design/location",
-  "views": {
-    "latLong": {
-      "map": "function(doc) {\n    if(doc.DEVICE_ID) {\n        emit(doc.DEVICE_ID, {type:\"Feature\",speed:doc.SPEED, direction:doc.DIRECTION, time:doc.EVENT_TIME, geometry:doc.geometry});\n    }\n}"
-    }
-  },
-  "language": "javascript"
-}
