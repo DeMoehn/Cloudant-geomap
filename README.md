@@ -27,6 +27,9 @@ The interface:<br />
 Querying a route:<br />
 <img src="https://raw.githubusercontent.com/DeMoehn/Cloudant-geomap/master/github-data/map_route.png" width="500"/>
 
+Route details:<br />
+<img src="https://raw.githubusercontent.com/DeMoehn/Cloudant-geomap/master/github-data/map_route-details.png" width="500"/>
+
 Using Geo:<br />
 <img src="https://raw.githubusercontent.com/DeMoehn/Cloudant-geomap/master/github-data/map_geo.png" width="500"/>
 
