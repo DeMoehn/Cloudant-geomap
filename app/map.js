@@ -164,8 +164,6 @@ $( document ).ready(function() {
 
     var docUrl = baseUrl + db + '/_design/routes/_view/findRoute?key="'+key+'"'; // Search Routes by startkey & endkey via [key, date]
 
-    console.log(docUrl);
-
     function parse (data) { // Call after the ajax is done
       var doc = JSON.parse(data); // Parse JSON Data into Obj. doc
       var myMarkers = Array();
@@ -197,8 +195,11 @@ $( document ).ready(function() {
     var docUrl = baseUrl + db + '/_design/cars/_view/showCars?reduce=true&group=true&startkey=["'; // Search Routes by startkey & endkey via [key, date]
     docUrl += key+'","0"]&endkey=["' + key + '","99999999"]&inclusive_end=true';
 
+    console.log(docUrl);
+
     function parse (data) { // Call after the ajax is done
       var doc = JSON.parse(data); // Parse JSON Data into Obj. doc
+          console.log(doc);
       var routeCount = 0; // Count the routes
       for(var i=0; i < doc.rows.length; i++) { // Go through each Document and insert into Dropdown
         $("<option data-geo='"+doc.rows[i].value+"' value='"+doc.rows[i].key+","+(i+1)+"'> Route "+(i+1)+" ("+doc.rows[i].value+" Geo-Points)</option>").appendTo("#routes_combo");
