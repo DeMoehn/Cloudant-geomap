@@ -1,0 +1,10 @@
+{
+  "_id": "_design/routes",
+  "_rev": "4-030f08cccc1ab6c3291880589654c114",
+  "views": {
+    "findRoute": {
+      "map": "function(doc) {\n    if(doc.type == \"route\") {\n        emit(doc.DEVICE_ID, [doc.geometry.coordinates[0],doc.geometry.coordinates[1], doc.name]);\n    }\n}"
+    }
+  },
+  "language": "javascript"
+}

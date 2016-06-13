@@ -1,0 +1,16 @@
+{
+  "_id": "_design/location",
+  "_rev": "15-ab6f568c0b7e9920f7b8441ce34218ab",
+  "views": {
+    "latLong": {
+      "map": "function(doc) {\n    if(doc.DEVICE_ID) {\n        emit([doc.DEVICE_ID, doc.EVENT_ID.slice(0, 8)], {type:\"Feature\", speed:doc.SPEED, geometry:doc.geometry});\n    }\n}"
+    },
+    "short": {
+      "map": "function(doc) {\n    if(doc.DEVICE_ID) {\n        emit(doc.DEVICE_ID+\"_\"+doc.EVENT_ID.slice(0, 8), [doc.geometry.coordinates[0],doc.geometry.coordinates[1], doc.SPEED]);\n    }\n}"
+    },
+    "heatmap": {
+      "map": "function(doc) {\n    if(doc.DEVICE_ID) {\n        emit(doc.DEVICE_ID, [doc.geometry.coordinates[0], doc.geometry.coordinates[1]]);\n    }\n}"
+    }
+  },
+  "language": "javascript"
+}

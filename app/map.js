@@ -164,6 +164,8 @@ $( document ).ready(function() {
 
     var docUrl = baseUrl + db + '/_design/routes/_view/findRoute?key="'+key+'"'; // Search Routes by startkey & endkey via [key, date]
 
+    console.log(docUrl);
+
     function parse (data) { // Call after the ajax is done
       var doc = JSON.parse(data); // Parse JSON Data into Obj. doc
       var myMarkers = Array();
