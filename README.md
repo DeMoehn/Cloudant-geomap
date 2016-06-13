@@ -21,28 +21,22 @@ The application is based on automotive data gathered via a project where 5 colle
 The app is just quickly hacked to demonstrate Cloudant geospatial, no awareness given to optimized or good coding! It's developed to be displayed on Safari and should also work with iPad, but no work was done to make it a real responsive Web app.
 
 ##Screenshots
-The interface:
-
+The interface:<br />
 <img src="https://raw.githubusercontent.com/DeMoehn/Cloudant-geomap/master/github-data/map_overview.png" width="500"/>
 
-Querying a route:
-
+Querying a route:<br />
 <img src="https://raw.githubusercontent.com/DeMoehn/Cloudant-geomap/master/github-data/map_route.png" width="500"/>
 
-Using Geo:
-
+Using Geo:<br />
 <img src="https://raw.githubusercontent.com/DeMoehn/Cloudant-geomap/master/github-data/map_geo.png" width="500"/>
 
-Querying multiple geometrics:
-
+Querying multiple geometrics:<br />
 <img src="https://raw.githubusercontent.com/DeMoehn/Cloudant-geomap/master/github-data/map_geo-multiple.png" width="500"/>
 
-Search by regions:
-
+Search by regions:<br />
 <img src="https://raw.githubusercontent.com/DeMoehn/Cloudant-geomap/master/github-data/map_regions.png" width="500"/>
 
-Create a heatmap by car locations:
-
+Create a heatmap by car locations:<br />
 <img src="https://raw.githubusercontent.com/DeMoehn/Cloudant-geomap/master/github-data/map-heatmap.png" width="500"/>
 
 
